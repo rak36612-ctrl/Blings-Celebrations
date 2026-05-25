@@ -9,7 +9,7 @@
     <meta name="author" content="Blings and Celebrations">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ===== CSS RESET & ROOT ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,6 +31,7 @@
             --gray-dark: #555;
             --font-display: 'Cormorant Garamond', 'Georgia', serif;
             --font-body: 'Inter', 'Segoe UI', sans-serif;
+            --font-curve: 'Great Vibes', cursive;
             --gold-gradient: linear-gradient(135deg, #d4a843 0%, #f0d078 40%, #d4a843 60%, #a07828 100%);
             --gold-gradient-text: linear-gradient(135deg, #f0d078, #d4a843, #f0d078);
             --shimmer: linear-gradient(110deg, transparent 20%, rgba(212,168,67,0.12) 40%, rgba(240,208,120,0.18) 50%, rgba(212,168,67,0.12) 60%, transparent 80%);
@@ -49,6 +50,37 @@
             overflow-x: hidden;
             max-width: 100%;
             line-height: 1.7;
+        }
+
+        /* ===== PRELOADER ===== */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        }
+        .preloader-text {
+            font-family: var(--font-curve);
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 400;
+            padding: 0 1rem;
+            text-align: center;
+            opacity: 0;
+            background: var(--gold-gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: preloader-anim 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes preloader-anim {
+            0% { opacity: 0; transform: scale(0.85); filter: blur(4px); }
+            20% { opacity: 1; filter: blur(0); }
+            80% { opacity: 1; transform: scale(1.05); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.15); filter: blur(4px); }
         }
 
         /* ===== SCROLLBAR ===== */
@@ -1124,6 +1156,11 @@
 </head>
 <body>
 
+    <!-- ===== STARTUP ANIMATION ===== -->
+    <div id="preloader">
+        <h1 class="preloader-text">Blings & Celebrations</h1>
+    </div>
+
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
         <a href="#hero" class="nav-logo">Blings & Celebrations</a>
@@ -1680,6 +1717,16 @@
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
+        // ===== PRELOADER =====
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            // Wait for animation to finish then hide completely
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 2400); 
+        });
+
         // ===== PARTICLE SYSTEM =====
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
